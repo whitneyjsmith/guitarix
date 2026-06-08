@@ -15,9 +15,16 @@
 #include <string>
 #include <vector>
 
+// Bring the entire gx_engine namespace into scope so GxMachine, GxEngine,
+// GxEngineState, kEngineOff/On/Bypass, PluginListBase etc. are unqualified.
+using namespace gx_engine;
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 static NSString *ns(const std::string& s) {
+    return [NSString stringWithUTF8String:s.c_str()];
+}
+static NSString *ns(const Glib::ustring& s) {
     return [NSString stringWithUTF8String:s.c_str()];
 }
 static std::string cpp(NSString *s) {
@@ -57,12 +64,9 @@ static std::string cpp(NSString *s) {
     _tunerEnabled          = NO;
 
     try {
-        // Locate the app bundle for resource paths.
         NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-
         _options = std::make_unique<gx_system::CmdlineOptions>(bundlePath.UTF8String);
 
-        // Set user data dir to ~/Library/Application Support/Guitarix
         NSString *appSupport = [NSSearchPathForDirectoriesInDomains(
             NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject];
         NSString *gxDir = [appSupport stringByAppendingPathComponent:@"Guitarix/"];
@@ -79,7 +83,8 @@ static std::string cpp(NSString *s) {
         if (error) {
             *error = [NSError errorWithDomain:@"GuitarixBridge"
                                          code:1
-                                     userInfo:@{NSLocalizedDescriptionKey: ns(e.what())}];
+                                     userInfo:@{NSLocalizedDescriptionKey:
+                                         [NSString stringWithUTF8String:e.what()]}];
         }
         return nil;
     }
@@ -92,34 +97,34 @@ static std::string cpp(NSString *s) {
                       bufferSize:(uint32_t)bufferSize
                            error:(NSError **)error
 {
-    __weak typeof(self) weakSelf = self;
+    // Use __weak to avoid a retain cycle in the C++ lambda.
+    __weak GuitarixBridge *weakSelf = self;
 
     auto cb = [weakSelf](const float* inL, const float* /*inR*/,
                          float* outL, float* outR, uint32_t n)
     {
-        typeof(self) s = weakSelf;
+        GuitarixBridge *s = weakSelf;
         if (!s || !s->_machine) {
             memset(outL, 0, n * sizeof(float));
             memset(outR, 0, n * sizeof(float));
             return;
         }
 
-        // Guitarix engine: mono in → mono pre-amp chain → stereo out chain
-        // mono_chain: (nframes, *input, *output)
-        // stereo_chain: (nframes, *in1, *in2, *out1, *out2)
-        float monoOut[n];
-        memset(monoOut, 0, n * sizeof(float));
+        // Use a heap buffer — VLAs are non-standard in C++17.
+        std::vector<float> monoOut(n, 0.0f);
 
+        // mono_chain: guitar input → amp/pre-amp chain → mono out
         s->_machine->get_engine().mono_chain.process(
             static_cast<int>(n),
-            inL ? inL : outL,   // input (pass silence if no input)
-            monoOut
+            inL ? inL : outL,
+            monoOut.data()
         );
 
+        // stereo_chain: mono fed to both inputs → stereo effect chain → L+R out
         s->_machine->get_engine().stereo_chain.process(
             static_cast<int>(n),
-            monoOut, monoOut,   // feed mono to both stereo inputs
-            outL,   outR
+            monoOut.data(), monoOut.data(),
+            outL, outR
         );
     };
 
@@ -128,13 +133,14 @@ static std::string cpp(NSString *s) {
         if (error) {
             *error = [NSError errorWithDomain:@"GuitarixBridge"
                                          code:2
-                                     userInfo:@{NSLocalizedDescriptionKey: @"Failed to open CoreAudio unit"}];
+                                     userInfo:@{NSLocalizedDescriptionKey:
+                                         @"Failed to open CoreAudio unit"}];
         }
         return NO;
     }
 
-    // Inform engine of the sample rate.
-    _machine->get_engine().set_samplerate(static_cast<int>(sampleRate));
+    // Tell the engine what sample rate we're running at.
+    _machine->get_engine().set_samplerate(static_cast<unsigned int>(sampleRate));
 
     return YES;
 }
@@ -177,35 +183,34 @@ static std::string cpp(NSString *s) {
 - (GXEngineState)engineState { return _engineState; }
 - (void)setEngineState:(GXEngineState)state {
     _engineState = state;
+    // GxEngineState is a plain enum in namespace gx_engine (not a scoped enum),
+    // so values are unqualified after 'using namespace gx_engine'.
     switch (state) {
-        case GXEngineStateOff:
-            _machine->set_state(GxEngineState::kEngineOff);      break;
-        case GXEngineStateBypassed:
-            _machine->set_state(GxEngineState::kEngineBypass);   break;
-        case GXEngineStateOn:
-            _machine->set_state(GxEngineState::kEngineOn);       break;
+        case GXEngineStateOff:      _machine->set_state(kEngineOff);     break;
+        case GXEngineStateBypassed: _machine->set_state(kEngineBypass);  break;
+        case GXEngineStateOn:       _machine->set_state(kEngineOn);      break;
     }
 }
 
 // ── Amp / cabinet models ──────────────────────────────────────────────────────
 
 - (NSArray<NSString *> *)ampModelIds {
-    // Guitarix exposes preamp models via the plugin list with type = PLUGIN_POS_RACK.
-    // We filter for known amp categories.
+    // Iterate the engine's plugin list — returns all registered DSP plugins.
     NSMutableArray *ids = [NSMutableArray array];
-    _machine->pluginlist_append_rack_for_category([&](Plugin* p) {
+    PluginListBase& pl = _machine->get_pluginlist();
+    for (auto it = pl.begin(); it != pl.end(); ++it) {
+        Plugin *p = it->second;
         if (p && p->pdef) {
             [ids addObject:ns(p->pdef->id)];
         }
-    });
+    }
     return ids;
 }
 
 - (NSString *)currentAmpModelId { return _currentAmpModelId; }
 - (void)setCurrentAmpModelId:(NSString *)modelId {
     _currentAmpModelId = modelId;
-    // Insert at front of mono chain, removing previous amp.
-    if (_currentAmpModelId.length > 0) {
+    if (modelId.length > 0) {
         [self insertPlugin:modelId beforePlugin:nil];
     }
 }
@@ -223,7 +228,7 @@ static std::string cpp(NSString *s) {
 
 - (NSArray<NSString *> *)parameterIds {
     NSMutableArray *ids = [NSMutableArray array];
-    gx_engine::ParamMap& pmap = _machine->get_parammap();
+    ParamMap& pmap = _machine->get_parammap();
     for (auto it = pmap.begin(); it != pmap.end(); ++it) {
         [ids addObject:ns(it->first)];
     }
@@ -231,7 +236,8 @@ static std::string cpp(NSString *s) {
 }
 
 - (float)floatValueForParameterId:(NSString *)paramId {
-    return _machine->get_parameter_value_float(cpp(paramId));
+    // Use the public template specialisation on GxMachineBase.
+    return _machine->get_parameter_value<float>(cpp(paramId));
 }
 
 - (void)setFloatValue:(float)value forParameterId:(NSString *)paramId {
@@ -239,7 +245,7 @@ static std::string cpp(NSString *s) {
 }
 
 - (BOOL)boolValueForParameterId:(NSString *)paramId {
-    return _machine->get_parameter_value_bool(cpp(paramId)) ? YES : NO;
+    return _machine->get_parameter_value<bool>(cpp(paramId)) ? YES : NO;
 }
 
 - (void)setBoolValue:(BOOL)value forParameterId:(NSString *)paramId {
@@ -247,23 +253,25 @@ static std::string cpp(NSString *s) {
 }
 
 - (void)rangeForParameterId:(NSString *)paramId min:(float *)outMin max:(float *)outMax {
-    gx_engine::ParamMap& pmap = _machine->get_parammap();
-    auto it = pmap.find(cpp(paramId));
-    if (it != pmap.end() && it->second->isFloat()) {
-        gx_engine::FloatParameter& fp =
-            it->second->getFloat();
-        if (outMin) *outMin = fp.lower;
-        if (outMax) *outMax = fp.upper;
-    } else {
-        if (outMin) *outMin = 0.f;
-        if (outMax) *outMax = 1.f;
+    ParamMap& pmap = _machine->get_parammap();
+    std::string cid = cpp(paramId);
+    if (pmap.hasId(cid)) {
+        Parameter& p = pmap[cid];
+        if (p.isFloat()) {
+            FloatParameter& fp = p.getFloat();
+            if (outMin) *outMin = fp.get_lower();
+            if (outMax) *outMax = fp.get_upper();
+            return;
+        }
     }
+    if (outMin) *outMin = 0.f;
+    if (outMax) *outMax = 1.f;
 }
 
 - (NSString *)labelForParameterId:(NSString *)paramId {
-    gx_engine::ParamMap& pmap = _machine->get_parammap();
-    auto it = pmap.find(cpp(paramId));
-    if (it != pmap.end()) return ns(it->second->l_name());
+    ParamMap& pmap = _machine->get_parammap();
+    std::string cid = cpp(paramId);
+    if (pmap.hasId(cid)) return ns(pmap[cid].l_name());
     return paramId;
 }
 
@@ -271,17 +279,19 @@ static std::string cpp(NSString *s) {
 
 - (NSArray<NSString *> *)presetBanks {
     NSMutableArray *banks = [NSMutableArray array];
-    gx_preset::GxSettings& settings = _machine->get_settings();
-    for (int i = 0; i < settings.banks.size(); ++i) {
-        [banks addObject:ns(settings.banks[i]->get_name())];
+    // Use GxMachine's bank_size() / get_bank_name() API — no need to reach
+    // into settings.banks directly.
+    int n = _machine->bank_size();
+    for (int i = 0; i < n; ++i) {
+        [banks addObject:ns(_machine->get_bank_name(i))];
     }
     return banks;
 }
 
 - (NSArray<GXPreset *> *)presetsInBank:(NSString *)bank {
     NSMutableArray *presets = [NSMutableArray array];
-    gx_preset::GxSettings& settings = _machine->get_settings();
-    gx_preset::PresetFile *pf = settings.banks.get_file(cpp(bank));
+    gx_system::PresetFileGui *pf =
+        _machine->get_bank_file(Glib::ustring(cpp(bank)));
     if (!pf) return presets;
 
     for (int i = 0; i < pf->size(); ++i) {
@@ -294,15 +304,32 @@ static std::string cpp(NSString *s) {
 }
 
 - (void)loadPreset:(GXPreset *)preset {
-    _machine->load_preset(&_machine->get_settings(), cpp(preset.bank), cpp(preset.name));
+    // GxMachineBase::load_preset takes a PresetFileGui* and a preset name.
+    gx_system::PresetFileGui *pf =
+        _machine->get_bank_file(Glib::ustring(cpp(preset.bank)));
+    if (pf) {
+        _machine->load_preset(pf, Glib::ustring(cpp(preset.name)));
+    }
 }
 
 - (void)saveCurrentPresetAs:(NSString *)name inBank:(NSString *)bank {
-    _machine->save_preset(&_machine->get_settings(), cpp(bank), cpp(name));
+    // GxSettingsBase::save takes PresetFile& (not PresetFileGui&).
+    // settings.banks.get_file() returns PresetFile* so no private-inheritance
+    // cast is needed. GxSettings makes banks public via 'using GxSettingsBase::banks'.
+    gx_preset::GxSettings& settings = _machine->get_settings();
+    gx_system::PresetFile *pf = settings.banks.get_file(Glib::ustring(cpp(bank)));
+    if (pf) {
+        settings.save(*pf, Glib::ustring(cpp(name)));
+    }
 }
 
 - (void)deletePreset:(GXPreset *)preset {
-    _machine->erase_preset(&_machine->get_settings(), cpp(preset.bank), cpp(preset.name));
+    gx_system::PresetFileGui *pf =
+        _machine->get_bank_file(Glib::ustring(cpp(preset.bank)));
+    if (pf) {
+        // GxMachineBase::erase_preset takes a PresetFileGui& (not pointer).
+        _machine->erase_preset(*pf, Glib::ustring(cpp(preset.name)));
+    }
 }
 
 // ── Effect rack ───────────────────────────────────────────────────────────────
@@ -353,7 +380,7 @@ static std::string cpp(NSString *s) {
     float note = _machine->get_tuner_note();
     if (note <= 0.f) return @"";
     static const char* names[] = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
-    int midi = static_cast<int>(std::round(note));
+    int midi   = static_cast<int>(std::round(note));
     int octave = (midi / 12) - 1;
     return [NSString stringWithFormat:@"%s%d", names[midi % 12], octave];
 }

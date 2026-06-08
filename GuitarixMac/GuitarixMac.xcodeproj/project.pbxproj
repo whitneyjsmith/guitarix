@@ -1,0 +1,399 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		128CF7CD52386AA52925B83F /* GuitarixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D076D4104F7F58001515A /* GuitarixApp.swift */; };
+		1559CAA6A02B5CD2D3AE08E5 /* CoreAudioDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC17DBE019851B8BA02B9310 /* CoreAudioDriver.cpp */; settings = {COMPILER_FLAGS = "-x objective-c++"; }; };
+		1E8C2E8BCAC847E3A5382659 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BAAA34DD2E300A8F2075EB /* ContentView.swift */; };
+		2723DB5AC56ADC5B2C79156F /* PresetBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAAADF1E4D45ECD9D0C3636 /* PresetBrowserView.swift */; };
+		2EF40F54F06CD1398F84E103 /* GuitarixBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7380AB30EDE6A5F1CFAD4B05 /* GuitarixBridge.mm */; settings = {COMPILER_FLAGS = "-x objective-c++"; }; };
+		49A1B0877A80EF04988249CF /* GuitarixViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95BD7A6B335398A89E608B /* GuitarixViewModel.swift */; };
+		4F5BF71E5136040F920FBA3A /* LevelMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CE86AEE79832D4F3B97A61 /* LevelMeterView.swift */; };
+		5400FB74C6EE12E32C98A786 /* AudioSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C719574D58B957E4B73AA6 /* AudioSettingsView.swift */; };
+		707F05A7EDAE212459DC84B0 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E034CEDFBFCAC1A5DEABE9CB /* CoreAudio.framework */; };
+		716A32C644020E7035D7BFEA /* EffectRackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80F58D5D9F5A2FE63F5009D /* EffectRackView.swift */; };
+		ADDE80A510F9F589A6A3DBDE /* TunerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB1A914745656BA8A0DFA86 /* TunerView.swift */; };
+		B835C2CACC706D15A59264D6 /* AmpSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B94A0C2733D889CB19BFC /* AmpSelectorView.swift */; };
+		C24ED113F7F8D9129CC766B3 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A880A4680D43CAC05C02E10D /* AppKit.framework */; };
+		D226884B9ACE33EB829E14DF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C240445FB9F052542D77F337 /* Foundation.framework */; };
+		EB4287B2E2FE2BC8765C3461 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489643ACE43FBA1161ED4C78 /* AudioToolbox.framework */; };
+		FBB2AD6482079BAE4962CE67 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C2DFD5BEE104F3DC3C34DD /* AudioUnit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2C9B94A0C2733D889CB19BFC /* AmpSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpSelectorView.swift; sourceTree = "<group>"; };
+		3B95BD7A6B335398A89E608B /* GuitarixViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarixViewModel.swift; sourceTree = "<group>"; };
+		489643ACE43FBA1161ED4C78 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		4EAAADF1E4D45ECD9D0C3636 /* PresetBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetBrowserView.swift; sourceTree = "<group>"; };
+		5AF571ED173B2E064FE59F94 /* CoreAudioDriver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreAudioDriver.h; sourceTree = "<group>"; };
+		61293BD56EAE0AE3EF35997B /* GuitarixMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuitarixMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7380AB30EDE6A5F1CFAD4B05 /* GuitarixBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GuitarixBridge.mm; sourceTree = "<group>"; };
+		7FB1A914745656BA8A0DFA86 /* TunerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunerView.swift; sourceTree = "<group>"; };
+		A880A4680D43CAC05C02E10D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B9BAAA34DD2E300A8F2075EB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BC17DBE019851B8BA02B9310 /* CoreAudioDriver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoreAudioDriver.cpp; sourceTree = "<group>"; };
+		C240445FB9F052542D77F337 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C3C2DFD5BEE104F3DC3C34DD /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		C458E477AF251691626FE1DE /* GuitarixMac-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GuitarixMac-Bridging-Header.h"; sourceTree = "<group>"; };
+		C9C719574D58B957E4B73AA6 /* AudioSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSettingsView.swift; sourceTree = "<group>"; };
+		E034CEDFBFCAC1A5DEABE9CB /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		E06D076D4104F7F58001515A /* GuitarixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarixApp.swift; sourceTree = "<group>"; };
+		E30468DD538E5178425935C7 /* GuitarixBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuitarixBridge.h; sourceTree = "<group>"; };
+		E80F58D5D9F5A2FE63F5009D /* EffectRackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectRackView.swift; sourceTree = "<group>"; };
+		E8CE86AEE79832D4F3B97A61 /* LevelMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelMeterView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD32C159AEDA6D72C1F86938 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				707F05A7EDAE212459DC84B0 /* CoreAudio.framework in Frameworks */,
+				EB4287B2E2FE2BC8765C3461 /* AudioToolbox.framework in Frameworks */,
+				FBB2AD6482079BAE4962CE67 /* AudioUnit.framework in Frameworks */,
+				D226884B9ACE33EB829E14DF /* Foundation.framework in Frameworks */,
+				C24ED113F7F8D9129CC766B3 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01BD47A5DF03CCFA6AC18768 = {
+			isa = PBXGroup;
+			children = (
+				F77138F1B3678C4B8B31D107 /* Sources */,
+				6CD4A326B6CA1951012840F6 /* Frameworks */,
+				BD84BD55E7F71E8FA26F3AEA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6CD4A326B6CA1951012840F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A880A4680D43CAC05C02E10D /* AppKit.framework */,
+				489643ACE43FBA1161ED4C78 /* AudioToolbox.framework */,
+				C3C2DFD5BEE104F3DC3C34DD /* AudioUnit.framework */,
+				E034CEDFBFCAC1A5DEABE9CB /* CoreAudio.framework */,
+				C240445FB9F052542D77F337 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BD84BD55E7F71E8FA26F3AEA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				61293BD56EAE0AE3EF35997B /* GuitarixMac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C5470715D3251F81CB747C8F /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				BC17DBE019851B8BA02B9310 /* CoreAudioDriver.cpp */,
+				5AF571ED173B2E064FE59F94 /* CoreAudioDriver.h */,
+				E30468DD538E5178425935C7 /* GuitarixBridge.h */,
+				7380AB30EDE6A5F1CFAD4B05 /* GuitarixBridge.mm */,
+				C458E477AF251691626FE1DE /* GuitarixMac-Bridging-Header.h */,
+			);
+			path = Bridge;
+			sourceTree = "<group>";
+		};
+		C9F4F586BB06C23F87BFBD74 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2C9B94A0C2733D889CB19BFC /* AmpSelectorView.swift */,
+				C9C719574D58B957E4B73AA6 /* AudioSettingsView.swift */,
+				B9BAAA34DD2E300A8F2075EB /* ContentView.swift */,
+				E80F58D5D9F5A2FE63F5009D /* EffectRackView.swift */,
+				E06D076D4104F7F58001515A /* GuitarixApp.swift */,
+				3B95BD7A6B335398A89E608B /* GuitarixViewModel.swift */,
+				E8CE86AEE79832D4F3B97A61 /* LevelMeterView.swift */,
+				4EAAADF1E4D45ECD9D0C3636 /* PresetBrowserView.swift */,
+				7FB1A914745656BA8A0DFA86 /* TunerView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F77138F1B3678C4B8B31D107 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C9F4F586BB06C23F87BFBD74 /* App */,
+				C5470715D3251F81CB747C8F /* Bridge */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		80ED345E79FF43E6AE7D4F27 /* GuitarixMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E7B6AA5BD8E1055C26422316 /* Build configuration list for PBXNativeTarget "GuitarixMac" */;
+			buildPhases = (
+				D925CAAFC37A4FABB23F8D29 /* Sources */,
+				DD32C159AEDA6D72C1F86938 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GuitarixMac;
+			packageProductDependencies = (
+			);
+			productName = GuitarixMac;
+			productReference = 61293BD56EAE0AE3EF35997B /* GuitarixMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		78812758F406F027F7F80C95 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = DBD1DD5E753D89D9C7F6A85E /* Build configuration list for PBXProject "GuitarixMac" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 01BD47A5DF03CCFA6AC18768;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BD84BD55E7F71E8FA26F3AEA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				80ED345E79FF43E6AE7D4F27 /* GuitarixMac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D925CAAFC37A4FABB23F8D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B835C2CACC706D15A59264D6 /* AmpSelectorView.swift in Sources */,
+				5400FB74C6EE12E32C98A786 /* AudioSettingsView.swift in Sources */,
+				1E8C2E8BCAC847E3A5382659 /* ContentView.swift in Sources */,
+				1559CAA6A02B5CD2D3AE08E5 /* CoreAudioDriver.cpp in Sources */,
+				716A32C644020E7035D7BFEA /* EffectRackView.swift in Sources */,
+				128CF7CD52386AA52925B83F /* GuitarixApp.swift in Sources */,
+				2EF40F54F06CD1398F84E103 /* GuitarixBridge.mm in Sources */,
+				49A1B0877A80EF04988249CF /* GuitarixViewModel.swift in Sources */,
+				4F5BF71E5136040F920FBA3A /* LevelMeterView.swift in Sources */,
+				2723DB5AC56ADC5B2C79156F /* PresetBrowserView.swift in Sources */,
+				ADDE80A510F9F589A6A3DBDE /* TunerView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		242EDDBC73DEBFFFCA616D62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SELECTED_FILES = readOnly;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited) $(PROJECT_DIR)/Sources/stubs $(PROJECT_DIR)/build/include/guitarix $(PROJECT_DIR)/Sources/Bridge /opt/homebrew/include /usr/local/include /opt/homebrew/Cellar/glibmm@2.66/2.66.8/include/glibmm-2.4 /opt/homebrew/Cellar/glibmm@2.66/2.66.8/lib/glibmm-2.4/include /opt/homebrew/Cellar/glibmm@2.66/2.66.8/include/giomm-2.4 /opt/homebrew/Cellar/glibmm@2.66/2.66.8/lib/giomm-2.4/include /opt/homebrew/Cellar/glib/2.88.1/include/glib-2.0 /opt/homebrew/Cellar/glib/2.88.1/lib/glib-2.0/include /opt/homebrew/Cellar/glib/2.88.1/include /opt/homebrew/opt/gettext/include /opt/homebrew/Cellar/pcre2/10.47_1/include /opt/homebrew/Cellar/libsigc++@2/2.12.2/include/sigc++-2.0 /opt/homebrew/Cellar/libsigc++@2/2.12.2/lib/sigc++-2.0/include /opt/homebrew/Cellar/lilv/0.26.4/include/lilv-0 /opt/homebrew/Cellar/sratom/0.6.22/include/sratom-0 /opt/homebrew/Cellar/sord/0.16.22/include/sord-0 /opt/homebrew/Cellar/serd/0.32.8/include/serd-0 /opt/homebrew/Cellar/lv2/1.18.10/include /opt/homebrew/Cellar/zix/0.8.0/include/zix-0 $(PROJECT_DIR)/../trunk/src/zita-resampler-1.1.0 $(PROJECT_DIR)/../trunk/src/zita-convolver $(PROJECT_DIR)/../trunk/src/gx_head/engine $(PROJECT_DIR)/../trunk/src/faust-generated $(PROJECT_DIR)/../trunk/src/gx_head/engine/tabels $(PROJECT_DIR)/../trunk/src/plugins\n";
+				LIBRARY_SEARCH_PATHS = "$(inherited) $(PROJECT_DIR)/build/lib";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = "$(inherited) -include $(PROJECT_DIR)/Sources/stubs/macos_compat.h\n";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		58C29CCFBFC0930698187232 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_INPUT_FILETYPE = automatic;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "$(PROJECT_DIR)/build/lib/libguitarix_coreaudio.a $(PROJECT_DIR)/build/lib/libguitarix_engine.a -L/opt/homebrew/lib -L/usr/local/lib -lglibmm-2.4 -lgobject-2.0 -lglib-2.0 -lsigc-2.0 -lsndfile -lfftw3f -lboost_thread-mt -lboost_iostreams -ldl\n";
+				PRODUCT_BUNDLE_IDENTIFIER = com.guitarix.GuitarixMac;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Bridge/GuitarixMac-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		66E0979D9DBEA0AD75C5223A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_INPUT_FILETYPE = automatic;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "$(PROJECT_DIR)/build/lib/libguitarix_coreaudio.a $(PROJECT_DIR)/build/lib/libguitarix_engine.a -L/opt/homebrew/lib -L/usr/local/lib -lglibmm-2.4 -lgobject-2.0 -lglib-2.0 -lsigc-2.0 -lsndfile -lfftw3f -lboost_thread-mt -lboost_iostreams -ldl\n";
+				PRODUCT_BUNDLE_IDENTIFIER = com.guitarix.GuitarixMac;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/Bridge/GuitarixMac-Bridging-Header.h";
+			};
+			name = Debug;
+		};
+		812A12F02EAE7063901943B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SELECTED_FILES = readOnly;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited) $(PROJECT_DIR)/Sources/stubs $(PROJECT_DIR)/build/include/guitarix $(PROJECT_DIR)/Sources/Bridge /opt/homebrew/include /usr/local/include /opt/homebrew/Cellar/glibmm@2.66/2.66.8/include/glibmm-2.4 /opt/homebrew/Cellar/glibmm@2.66/2.66.8/lib/glibmm-2.4/include /opt/homebrew/Cellar/glibmm@2.66/2.66.8/include/giomm-2.4 /opt/homebrew/Cellar/glibmm@2.66/2.66.8/lib/giomm-2.4/include /opt/homebrew/Cellar/glib/2.88.1/include/glib-2.0 /opt/homebrew/Cellar/glib/2.88.1/lib/glib-2.0/include /opt/homebrew/Cellar/glib/2.88.1/include /opt/homebrew/opt/gettext/include /opt/homebrew/Cellar/pcre2/10.47_1/include /opt/homebrew/Cellar/libsigc++@2/2.12.2/include/sigc++-2.0 /opt/homebrew/Cellar/libsigc++@2/2.12.2/lib/sigc++-2.0/include /opt/homebrew/Cellar/lilv/0.26.4/include/lilv-0 /opt/homebrew/Cellar/sratom/0.6.22/include/sratom-0 /opt/homebrew/Cellar/sord/0.16.22/include/sord-0 /opt/homebrew/Cellar/serd/0.32.8/include/serd-0 /opt/homebrew/Cellar/lv2/1.18.10/include /opt/homebrew/Cellar/zix/0.8.0/include/zix-0 $(PROJECT_DIR)/../trunk/src/zita-resampler-1.1.0 $(PROJECT_DIR)/../trunk/src/zita-convolver $(PROJECT_DIR)/../trunk/src/gx_head/engine $(PROJECT_DIR)/../trunk/src/faust-generated $(PROJECT_DIR)/../trunk/src/gx_head/engine/tabels $(PROJECT_DIR)/../trunk/src/plugins\n";
+				LIBRARY_SEARCH_PATHS = "$(inherited) $(PROJECT_DIR)/build/lib";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_CPLUSPLUSFLAGS = "$(inherited) -include $(PROJECT_DIR)/Sources/stubs/macos_compat.h\n";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DBD1DD5E753D89D9C7F6A85E /* Build configuration list for PBXProject "GuitarixMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				242EDDBC73DEBFFFCA616D62 /* Debug */,
+				812A12F02EAE7063901943B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E7B6AA5BD8E1055C26422316 /* Build configuration list for PBXNativeTarget "GuitarixMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66E0979D9DBEA0AD75C5223A /* Debug */,
+				58C29CCFBFC0930698187232 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 78812758F406F027F7F80C95 /* Project object */;
+}

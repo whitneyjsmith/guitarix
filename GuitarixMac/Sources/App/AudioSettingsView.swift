@@ -99,6 +99,6 @@ struct AudioSettingsView: View {
 // ── GuitarixViewModel extension ───────────────────────────────────────────────
 
 extension GuitarixViewModel {
-    var activeSampleRate: Double { bridge?.value(forKey: "sampleRate") as? Double ?? 44100 }
-    var activeBufferSize: UInt32 { 256 }   // TODO: expose from bridge if needed
+    var activeSampleRate: Double { sampleRate }
+    var activeBufferSize: UInt32 { bufferSize }
 }

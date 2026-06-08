@@ -47,27 +47,30 @@ final class GuitarixViewModel: ObservableObject {
     // ── Private ───────────────────────────────────────────────────────────────
     private var bridge: GuitarixBridge?
     private var meterTimer: Timer?
-    private var sampleRate: Double = 44100
-    private var bufferSize: UInt32 = 256
+    // Internal (not private) so AudioSettingsView extension can reflect them.
+    var sampleRate: Double = 44100
+    var bufferSize: UInt32 = 256
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
     init() {
-        var err: NSError?
-        guard let b = GuitarixBridge(error: &err) else {
-            errorMessage = err?.localizedDescription ?? "Failed to initialise engine"
-            return
+        // ObjC initWithError: → Swift init() throws.
+        // WMO may warn the try is redundant; keep it for correctness outside WMO.
+        do {
+            let b = try GuitarixBridge()
+            bridge = b
+
+            ampModels     = b.ampModelIds()     as! [String]
+            cabinetModels = b.cabinetModelIds() as! [String]
+            presetBanks   = b.presetBanks()     as! [String]
+            inputDevices  = b.availableInputDevices()  as! [GXAudioDevice]
+            outputDevices = b.availableOutputDevices() as! [GXAudioDevice]
+
+            if let first = presetBanks.first { selectedBank = first }
+            reloadChains()
+        } catch {
+            errorMessage = error.localizedDescription
         }
-        bridge = b
-
-        ampModels     = (b.ampModelIds()     as! [String])
-        cabinetModels = (b.cabinetModelIds() as! [String])
-        presetBanks   = (b.presetBanks()     as! [String])
-        inputDevices  = (b.availableInputDevices()  as! [GXAudioDevice])
-        outputDevices = (b.availableOutputDevices() as! [GXAudioDevice])
-
-        if let first = presetBanks.first { selectedBank = first }
-        reloadChains()
     }
 
     // ── Audio control ─────────────────────────────────────────────────────────
@@ -77,14 +80,15 @@ final class GuitarixViewModel: ObservableObject {
         b.setInputDeviceId(selectedInputDeviceId)
         b.setOutputDeviceId(selectedOutputDeviceId)
 
-        var err: NSError?
-        guard b.startAudio(withSampleRate: sampleRate, bufferSize: bufferSize, error: &err) else {
-            errorMessage = err?.localizedDescription ?? "Audio start failed"
-            return
+        // ObjC startAudioWithSampleRate:bufferSize:error: is imported as throwing.
+        do {
+            try b.startAudio(withSampleRate: sampleRate, bufferSize: bufferSize)
+            b.engineState = .on
+            isRunning = true
+            startMeterTimer()
+        } catch {
+            errorMessage = error.localizedDescription
         }
-        b.engineState = .on
-        isRunning = true
-        startMeterTimer()
     }
 
     func stopAudio() {
@@ -126,10 +130,11 @@ final class GuitarixViewModel: ObservableObject {
 
     private func loadBankPresets() {
         guard let b = bridge else { return }
-        presetsInBank = (b.presets(inBank: selectedBank) as! [GXPreset])
+        presetsInBank = b.presets(inBank: selectedBank) as! [GXPreset]
     }
 
     func loadPreset(_ preset: GXPreset) {
+        // ObjC loadPreset: → Swift load(_:) (renamed by Swift 3 ObjC import rules)
         bridge?.load(preset)
         reloadChains()
     }
@@ -143,8 +148,8 @@ final class GuitarixViewModel: ObservableObject {
 
     func reloadChains() {
         guard let b = bridge else { return }
-        monoChain   = (b.monoChainPluginIds()   as! [String])
-        stereoChain = (b.stereoChainPluginIds() as! [String])
+        monoChain   = b.monoChainPluginIds()   as! [String]
+        stereoChain = b.stereoChainPluginIds() as! [String]
     }
 
     func addEffect(_ id: String) {
