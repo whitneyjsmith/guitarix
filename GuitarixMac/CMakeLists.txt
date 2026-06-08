@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # ── Dependencies (installed via Homebrew) ──────────────────────────────────────
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLIBMM   REQUIRED IMPORTED_TARGET glibmm-2.4)
+pkg_check_modules(GIOMM    REQUIRED IMPORTED_TARGET giomm-2.4)
+pkg_check_modules(LILV     REQUIRED IMPORTED_TARGET lilv-0)
 pkg_check_modules(SIGCPP   REQUIRED IMPORTED_TARGET sigc++-2.0)
 pkg_check_modules(SNDFILE  REQUIRED IMPORTED_TARGET sndfile)
 pkg_check_modules(FFTW3    REQUIRED IMPORTED_TARGET fftw3f)
@@ -24,7 +26,7 @@ set(ENGINE_SOURCES
     ${ENGINE_ROOT}/gx_head/engine/gx_jack_wrapper.cpp
     ${ENGINE_ROOT}/gx_head/engine/gx_json.cpp
     ${ENGINE_ROOT}/gx_head/engine/gx_logging.cpp
-    ${ENGINE_ROOT}/gx_head/engine/gx_neural_plugins.cpp
+    # gx_neural_plugins.cpp excluded: requires RTNeural + NAM submodules (not initialised)
     ${ENGINE_ROOT}/gx_head/engine/gx_paramtable.cpp
     ${ENGINE_ROOT}/gx_head/engine/gx_pitch_tracker.cpp
     ${ENGINE_ROOT}/gx_head/engine/gx_pluginloader.cpp
@@ -33,12 +35,11 @@ set(ENGINE_SOURCES
     ${ENGINE_ROOT}/gx_head/engine/gx_system.cpp
     ${ENGINE_ROOT}/gx_head/engine/gx_convolver.cpp
     ${ENGINE_ROOT}/gx_head/engine/jsonrpc.cpp
-    ${ENGINE_ROOT}/gx_head/engine/jsonrpc_methods-generated.cc
+    # jsonrpc_methods-generated.cc is #included inside jsonrpc.cpp — not a separate TU
     ${ENGINE_ROOT}/gx_head/engine/ladspaback.cpp
     ${ENGINE_ROOT}/gx_head/engine/ladspaplugin.cpp
-    # faust-generated DSP
-    ${ENGINE_ROOT}/gx_head/engine/gx_cabinet_data.cc
-    ${ENGINE_ROOT}/gx_head/engine/gx_preamp_data.cc
+    # gx_cabinet_data.cc and gx_preamp_data.cc are #included inside gx_internal_plugins.cpp
+    # (CabDesc_imp/PreDesc_imp templates are defined there) — not separate TUs
     # machine layer
     ${ENGINE_ROOT}/gx_head/gui/machine.cpp
 )
@@ -51,14 +52,22 @@ target_compile_definitions(guitarix_engine PUBLIC
 )
 
 target_include_directories(guitarix_engine PUBLIC
+    # stubs/ MUST come first: our guitarix.h, ext/stdio_filebuf.h, and malloc.h
+    # intercept includes before the GTK-laden originals are reached.
+    ${CMAKE_SOURCE_DIR}/Sources/stubs
     ${ENGINE_ROOT}/headers
     ${ENGINE_ROOT}/gx_head/engine
     ${ENGINE_ROOT}/zita-convolver
-    ${ENGINE_ROOT}/zita-resampler-1.1.0/libs
+    ${ENGINE_ROOT}/zita-resampler-1.1.0
+    ${ENGINE_ROOT}/gx_head/engine/tabels    # valve.h and other lookup tables
+    ${ENGINE_ROOT}/faust-generated          # low_high_cut.h, jconv_post.h, etc.
+    ${ENGINE_ROOT}/plugins                  # pluginlib.h (bare include in gx_engine.cpp)
 )
 
 target_link_libraries(guitarix_engine PUBLIC
     PkgConfig::GLIBMM
+    PkgConfig::GIOMM
+    PkgConfig::LILV
     PkgConfig::SIGCPP
     PkgConfig::SNDFILE
     PkgConfig::FFTW3
@@ -70,8 +79,9 @@ target_link_libraries(guitarix_engine PUBLIC
 target_compile_options(guitarix_engine PRIVATE
     -O2
     -ffast-math
-    -msse -msse2 -msse3 -mfpmath=sse
     -Wno-deprecated-declarations
+    # Force-include the macOS compatibility shims before any engine header
+    -include ${CMAKE_SOURCE_DIR}/Sources/stubs/macos_compat.h
 )
 
 # ── CoreAudio driver (built alongside the engine) ─────────────────────────────

@@ -38,20 +38,16 @@ targets:
       - sdk: AudioUnit.framework
       - sdk: Foundation.framework
       - sdk: AppKit.framework
-      - library: build/lib/libguitarix_engine.a
-        embed: false
-      - library: build/lib/libguitarix_coreaudio.a
-        embed: false
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.guitarix.GuitarixMac
       INFOPLIST_FILE: Resources/Info.plist
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-      # Obj-C++ for the bridge files
       GCC_INPUT_FILETYPE: automatic
       CLANG_CXX_LANGUAGE_STANDARD: "c++17"
       CLANG_CXX_LIBRARY: "libc++"
-      # Link Homebrew dynamic libs
       OTHER_LDFLAGS: >
+        $(PROJECT_DIR)/build/lib/libguitarix_coreaudio.a
+        $(PROJECT_DIR)/build/lib/libguitarix_engine.a
         -L/opt/homebrew/lib
         -L/usr/local/lib
         -lglibmm-2.4

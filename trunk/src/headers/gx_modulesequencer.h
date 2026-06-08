@@ -357,6 +357,9 @@ public:
     virtual void overload(OverloadType tp, const char *reason); // RT
     void set_stateflag(StateFlag flag); // RT
     void clear_stateflag(StateFlag flag); // RT
+#if defined(_WINDOWS) || defined(__APPLE__)
+    bool clear_override() { clear_stateflag(SF_OVERLOAD); return false; } // false = disconnect timeout
+#endif
     void set_state(GxEngineState state);
     GxEngineState get_state();
     sigc::signal<void, GxEngineState>& signal_state_change() { return state_change; }

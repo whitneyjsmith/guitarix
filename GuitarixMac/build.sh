@@ -26,11 +26,13 @@ brew_pkgs=(
     cmake
     ninja
     pkg-config
-    glibmm
+    glibmm@2.66
     libsigc++@2
     boost
     libsndfile
     fftw
+    lv2
+    lilv
     gperf
     intltool
     xcodegen
